@@ -5,13 +5,21 @@
   padding: 1rem;
   background-color: #333;
   color: #fff;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.footer:hover {
+  background-color: #555;  /* or any color you like for hover */
+  color: #ffcc00;          /* bright contrasting text on hover */
 }
 
 .link {
-  color: #fff;
+  color: inherit;  /* inherits the footer color dynamically */
   text-decoration: none;
+  transition: color 0.5s ease;
 }
 
 .link:hover {
   text-decoration: underline;
+  color: #ffe680;  /* optional: slightly different link color on hover */
 }

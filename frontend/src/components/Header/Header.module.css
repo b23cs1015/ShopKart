@@ -1,16 +1,29 @@
 .header {
-    font-family: 'Comfortaa', sans-serif;
+  font-family: 'Comfortaa', sans-serif;
   display: flex;
   align-items: center;
   padding: 1rem 2rem;
   background-color: #fff;
   border: 1px solid #eee;
   border-radius: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0.2, 0.2, 0.2, 0.3);
   width: 80%;
   margin: 2rem auto;
-  flex-wrap: wrap; /* allow items to wrap on small screens */
+  flex-wrap: wrap;
+  animation: color-glow 3s linear infinite;
 }
+
+@keyframes color-glow {
+  0% {
+    filter: drop-shadow(0 0 15px #3498db) hue-rotate(0deg);
+  }
+  100% {
+    filter: drop-shadow(0 0 15px #3498db) hue-rotate(360deg);
+  }
+}
+
+
+
 
 .logo {
   font-size: 1.5rem;
