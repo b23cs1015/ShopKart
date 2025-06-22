@@ -1,0 +1,72 @@
+.cardGrid {
+    width: 80%;
+    margin: 2rem auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+    
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 300px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.name {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(255,255,255,0.85);
+  z-index: 2;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.subcategories {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.card:hover .subcategories {
+  opacity: 1;
+}
+
+.sub {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.card:hover .image {
+  filter: brightness(0.6);
+}
