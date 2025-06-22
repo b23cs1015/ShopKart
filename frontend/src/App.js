@@ -7,6 +7,7 @@ import Profile from './pages/Profile';
 import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import Developers from './pages/Developers';
+import SubCategoryPage from './pages/subcategories/SubCategoryPage';
 import { HashLoader } from 'react-spinners';
 
 const AppContent = () => {
@@ -54,6 +55,7 @@ const AppContent = () => {
             <Route path="/cart" element={<Cart />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/developers" element={<Developers />} />
+            <Route path="/subcategory/:name" element={<SubCategoryPage />} />
           </Routes>
           <Footer />
         </>

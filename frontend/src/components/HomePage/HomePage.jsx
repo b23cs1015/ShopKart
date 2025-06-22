@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
 
 const categories = [
@@ -20,6 +21,9 @@ const categories = [
 ];
 
 const HomePage = () => {
+
+  const navigate = useNavigate();
+  
   return (
     <div className={styles.cardGrid}>
     {categories.map(cat => (
@@ -28,7 +32,14 @@ const HomePage = () => {
         <img src={cat.image} alt={cat.name} className={styles.image} />
         <div className={styles.subcategories}>
             {cat.subcategories.map(sub => (
-            <div key={sub} className={styles.sub}>{sub}</div>
+            <div
+            key={sub} 
+            className={styles.sub}
+            onClick={() => navigate(`/subcategory/${sub.toLowerCase()}`)}
+            style={{ cursor: 'pointer' }}
+            >
+              {sub}
+            </div>
             ))}
         </div>
         </div>
