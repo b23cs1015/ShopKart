@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import styles from './SubCategoryPage.module.css';
 
 const dummyProducts = [
@@ -86,14 +86,18 @@ const SubCategoryPage = () => {
       </div>
 
       {filteredProducts.length > 0 ? (
-        <ul className={styles.productList}>
-          {filteredProducts.map(prod => (
-            <li key={prod.id} className={styles.productItem}>
-              <strong>{prod.name}</strong> - ₹{prod.price} <br />
-              {prod.company} - {prod.size} - {prod.reviews}★
-            </li>
-          ))}
-        </ul>
+      <div className={styles.productList}>
+        {filteredProducts.map(prod => (
+          <Link
+            to={`/product/${prod.id}`}
+            className={styles.productItem}
+            key={prod.id}
+          >
+            <strong>{prod.name}</strong> - ₹{prod.price} <br />
+            {prod.company} - {prod.size} - {prod.reviews}/5
+          </Link>
+        ))}
+      </div>
       ) : (
         <div className={styles.noResult}>
           No products found. Try changing filters or search terms.

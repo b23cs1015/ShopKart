@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import HomePage from './components/HomePage/HomePage';
@@ -8,6 +10,7 @@ import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import Developers from './pages/Developers';
 import SubCategoryPage from './pages/subcategories/SubCategoryPage';
+import ProductDetails from './pages/ProductDetails';
 import { HashLoader } from 'react-spinners';
 
 const AppContent = () => {
@@ -56,8 +59,19 @@ const AppContent = () => {
             <Route path="/orders" element={<Orders />} />
             <Route path="/developers" element={<Developers />} />
             <Route path="/subcategory/:name" element={<SubCategoryPage />} />
+            <Route path="/product/:productId" element={<ProductDetails />} />
           </Routes>
           <Footer />
+
+          <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            pauseOnHover
+            theme="colored"
+          />
         </>
       )}
     </div>

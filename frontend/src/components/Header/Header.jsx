@@ -22,11 +22,11 @@ const Header = () => {
           <FaUserCircle className={styles.icon} />
           <span className={styles.text}>Profile</span>
         </Link>
-        <Link to='/cart' className={styles.link}>
+        <Link to='/orders' className={styles.link}>
           <FaClipboardList className={styles.icon} />
           <span className={styles.text}>Orders</span>
         </Link>
-        <Link to='/orders' className={styles.link}>
+        <Link to='/cart' className={styles.link}>
           <FaShoppingCart className={styles.icon} />
           <span className={styles.text}>Cart</span>
         </Link>
