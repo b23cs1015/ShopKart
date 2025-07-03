@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styles from './SubCategoryPage.module.css';
+import axios from '../../utils/axios'
 
-const dummyProducts = [
-  { id: 1, name: 'Cool Shirt', size: 'M', company: 'Nike', price: 999, reviews: 4.5 },
-  { id: 2, name: 'Stylish Jeans', size: 'L', company: 'Levis', price: 1999, reviews: 4.0 },
-  { id: 3, name: 'Smartphone', size: '-', company: 'Samsung', price: 15000, reviews: 4.3 },
-  { id: 4, name: 'Elegant Dress', size: 'S', company: 'Zara', price: 2500, reviews: 4.7 },
-];
+// const dummyProducts = [
+//   { id: 1, name: 'Cool Shirt', size: 'M', company: 'Nike', price: 999, reviews: 4.5 },
+//   { id: 2, name: 'Stylish Jeans', size: 'L', company: 'Levis', price: 1999, reviews: 4.0 },
+//   { id: 3, name: 'Smartphone', size: '-', company: 'Samsung', price: 15000, reviews: 4.3 },
+//   { id: 4, name: 'Elegant Dress', size: 'S', company: 'Zara', price: 2500, reviews: 4.7 },
+// ];
 
 const SubCategoryPage = () => {
   const { name } = useParams();
@@ -19,12 +20,44 @@ const SubCategoryPage = () => {
   const [sortOption, setSortOption] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(dummyProducts);
 
+  // useEffect(() => {
+  //   let filtered = dummyProducts.filter(prod => 
+  //     prod.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+  //     (sizeFilter ? prod.size === sizeFilter : true) &&
+  //     (companyFilter ? prod.company === companyFilter : true)
+  //   );
+
+  //   if (sortOption === 'priceLowHigh') {
+  //     filtered.sort((a, b) => a.price - b.price);
+  //   } else if (sortOption === 'priceHighLow') {
+  //     filtered.sort((a, b) => b.price - a.price);
+  //   } else if (sortOption === 'reviewsHighLow') {
+  //     filtered.sort((a, b) => b.reviews - a.reviews);
+  //   }
+
+  //   setFilteredProducts(filtered);
+  // }, [searchTerm, sizeFilter, companyFilter, sortOption]);
+
+  useEffect( () => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get('/products')
+        setProducts(res.data)
+        setFilteredProducts(res.data)
+      } catch (err) {
+        console.error('Failed to fetch products:', err)
+      }
+    }
+    fetchProducts()
+  }, [] )
+
   useEffect(() => {
-    let filtered = dummyProducts.filter(prod => 
+    let filtered = products.filter(prod => 
       prod.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (sizeFilter ? prod.size === sizeFilter : true) &&
-      (companyFilter ? prod.company === companyFilter : true)
-    );
+      (sizeFilter ? prod.size === sizeFilter : true) && 
+      (companyFIlter ? prod.company === companyFilter : true) &&
+      (prod.category?.toLowerCase() === name.toLowerCase())
+    )
 
     if (sortOption === 'priceLowHigh') {
       filtered.sort((a, b) => a.price - b.price);
@@ -34,8 +67,8 @@ const SubCategoryPage = () => {
       filtered.sort((a, b) => b.reviews - a.reviews);
     }
 
-    setFilteredProducts(filtered);
-  }, [searchTerm, sizeFilter, companyFilter, sortOption]);
+    setFilteredProducts(filtered)
+  }, [products, searchTerm, sizeFilter, companyFilter, sortOption, name])
 
   return (
     <div className={styles.container}>

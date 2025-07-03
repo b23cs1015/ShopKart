@@ -3,6 +3,10 @@ import { useParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { toast } from 'react-toastify';
 import styles from './ProductDetails.module.css';
+import { useEffect } from 'react';
+import API from '../api'
+
+
 
 const dummyProducts = [
   {
@@ -67,7 +71,11 @@ const ProductDetails = () => {
   const { productId } = useParams();
   const { addToCart } = useCart();
 
-  const product = dummyProducts.find(p => p.id === parseInt(productId));
+  const [product, setProduct] = useState(null)
+  useEffect(() => {
+    API.get(`/products/${productId}`).then(res => setProduct(res.data)).catch(err => console.error(err))
+  }, [productId])
+
   const [selectedImage, setSelectedImage] = useState(product?.images?.[0] || '');
   const [fade, setFade] = useState(true);
 
