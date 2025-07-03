@@ -5,91 +5,121 @@ import { toast } from 'react-toastify';
 import styles from './ProductDetails.module.css';
 
 const dummyProducts = [
-  { id: 1,
+  {
+    id: 1,
     name: 'Cool Shirt',
     size: 'M',
     company: 'Nike',
     price: 999,
     reviews: 4.5,
     description: 'A stylish and comfortable shirt.',
-    images: ['/images/shirt1.jpg', '/images/shirt2.jpg', '/images/shirt3.jpg'] },
-
+    images: [
+      'https://images.unsplash.com/photo-1585386959984-a4155224f270?auto=format&fit=crop&w=500&q=80',
+      'https://images.unsplash.com/photo-1593032465171-8cc0c6a47df4?auto=format&fit=crop&w=500&q=80',
+      'https://images.unsplash.com/photo-1593032903243-bb7ae1c08cd5?auto=format&fit=crop&w=500&q=80',
+    ]
+  },
+  {
+    id: 2,
+    name: 'Stylish Jeans',
+    size: 'L',
+    company: 'Levis',
+    price: 1999,
+    reviews: 4.0,
+    description: 'Trendy jeans with premium fabric.',
+    images: [
+      'https://images.unsplash.com/photo-1585386959984-a4155224f270?auto=format&fit=crop&w=500&q=80',
+      'https://images.unsplash.com/photo-1593032465171-8cc0c6a47df4?auto=format&fit=crop&w=500&q=80'
+    ]
+  },
+  {
+    id: 3,
+    name: 'Smartphone',
+    size: '-',
+    company: 'Samsung',
+    price: 15000,
+    reviews: 4.3,
+    description: 'Latest Samsung smartphone.',
+    images: [
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=80',
+      'https://images.pexels.com/photos/6311608/pexels-photo-6311608.jpeg?auto=compress&cs=tinysrgb&w=500',
+      'https://images.unsplash.com/photo-1585386959984-a4155224f270?auto=format&fit=crop&w=500&q=80'
+    ]
+  },
+  {
+    id: 4,
+    name: 'Elegant Dress',
+    size: 'S',
+    company: 'Zara',
+    price: 2500,
+    reviews: 4.7,
+    description: 'Elegant dress perfect for parties.',
+    images: [
+      'https://images.pexels.com/photos/6311608/pexels-photo-6311608.jpeg?auto=compress&cs=tinysrgb&w=500',
+      'https://images.pexels.com/photos/6311615/pexels-photo-6311615.jpeg?auto=compress&cs=tinysrgb&w=500',
+      'https://images.pexels.com/photos/6311610/pexels-photo-6311610.jpeg?auto=compress&cs=tinysrgb&w=500'
+    ]
+  },
 ];
+
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const { addToCart } = useCart();
-  const product = dummyProducts.find(p => p.id === parseInt(productId))
-  const [selectedImg, setSelectedImg] = useState(product?.images[0])
 
-  if(!product) return <h2>Product not found</h2>;
+  const product = dummyProducts.find(p => p.id === parseInt(productId));
+  const [selectedImage, setSelectedImage] = useState(product?.images?.[0] || '');
+  const [fade, setFade] = useState(true);
 
-  return(
+  if (!product) return <h2>Product not found</h2>;
+
+  const handleImageChange = (img) => {
+    setFade(false);
+    setTimeout(() => {
+      setSelectedImage(img);
+      setFade(true)
+    }, 200)
+  }
+
+  return (
     <div className={styles.container}>
-
-      <div className={styles.left}>
-        <img src={selectedImg} alt={product.name} className={styles.mainImage}/>
-        <div className={styles.thumbnailRow}>
+      <div className={styles.imageGallery}>
+        <div className={styles.mainImageWrapper}>
+          <img src={selectedImage} alt={product.name} className={`${styles.mainImage} ${fade ? styles.fadeIn : styles.fadeOut}`} />
+        </div>
+        <div className={styles.thumbnails}>
           {product.images.map((img, index) => (
-              <img
+            <img
               key={index}
               src={img}
-              alt={`Thumb ${index}`}
-              onClick={() => setSelectedImg(img)}
-              className={`${styles.thumbnail} ${selectedImg === img ? styles.activeThumb : ''}`}
-              />
-            ))}
+              alt={`Thumbnail ${index + 1}`}
+              className={`${styles.thumbnail} ${selectedImage === img ? styles.activeThumbnail : ''}`}
+              onClick={() => handleImageChange(img)}
+            />
+          ))}
         </div>
       </div>
 
-      <div className={styles.right}>
-            <h2 className={styles.name}>{product.name}</h2>
-            <p className={styles.rating}>⭐ {product.review} / 5</p>
-            <p><strong>Brand:</strong> {product.company}</p>
-            <p><strong>Size:</strong> {product.size}</p>
-            <p><strong>Price:</strong> ₹{product.price}</p>
-            <p className={styles.description}><strong>Description:</strong> {product.description}</p>
+      <div className={styles.details}>
+        <h1>{product.name}</h1>
+        <p><strong>Brand:</strong> {product.company}</p>
+        <p><strong>Size:</strong> {product.size}</p>
+        <p><strong>Price:</strong> ₹{product.price}</p>
+        <p><strong>Rating:</strong> {product.reviews}★</p>
+        <p><strong>Description:</strong> {product.description}</p>
 
-            <button className={styles.addButton}
-            onClick={() => {
-              addToCart(product);
-              toast.success(`${product.name} added to cart!`);
-            }}
-            >
-              Add to Cart
-            </button>
+        <button
+          className={styles.addButton}
+          onClick={() => {
+            addToCart(product);
+            toast.success(`${product.name} added to cart!`);
+          }}
+        >
+          Add to Cart 🛒
+        </button>
       </div>
-
     </div>
   );
-  // const { productId } = useParams();
-  // const { addToCart } = useCart();
-  // const product = dummyProducts.find(p => p.id === parseInt(productId));
-
-  // if (!product) return <h2>Product not found</h2>;
-
-  // return (
-  //   <div className={styles.container}>
-  //     <h1>{product.name}</h1>
-  //     <img src={product.image} alt={product.name} className={styles.image} />
-  //     <p><strong>Brand:</strong> {product.company}</p>
-  //     <p><strong>Size:</strong> {product.size}</p>
-  //     <p><strong>Price:</strong> ₹{product.price}</p>
-  //     <p><strong>Rating:</strong> {product.reviews}★</p>
-  //     <p><strong>Description:</strong> {product.description}</p>
-
-  //     <button
-  //     className={styles.addButton}
-  //     onClick={() => {
-  //         addToCart(product);
-  //         toast.success(`${product.name} added to cart!`);
-  //     }}
-  //     >
-  //     Add to Cart 🛒
-  //     </button>
-
-  //   </div>
-  // );
 };
 
 export default ProductDetails;
